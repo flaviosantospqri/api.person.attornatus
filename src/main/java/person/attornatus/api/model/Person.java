@@ -1,6 +1,7 @@
 package person.attornatus.api.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,12 +15,16 @@ public class Person {
     private Long id;
 
     @Column
+    private String externalUUID;
+
+
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private LocalDate birthDate;
 
-    @Column
+    @Column(nullable = true)
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Address> addresses;
 
@@ -54,6 +59,14 @@ public class Person {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public String getExternalUUID() {
+        return externalUUID;
+    }
+
+    public void setExternalUUID(String externalUUID) {
+        this.externalUUID = externalUUID;
     }
 
     @Override

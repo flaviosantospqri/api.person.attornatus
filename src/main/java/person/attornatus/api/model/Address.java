@@ -1,6 +1,5 @@
 package person.attornatus.api.model;
-
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 
 @Entity
@@ -23,6 +22,8 @@ public class Address {
     @Column(nullable = false)
     private String city;
 
+    @Column(nullable = true)
+    private Boolean isMain;
 
     public Address() {
     }

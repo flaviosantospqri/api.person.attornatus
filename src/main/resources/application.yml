@@ -1,0 +1,8 @@
+spring.h2.console:
+    enabled: true
+    path: /h2
+
+springdoc:
+  swagger-ui:
+    path: /doc
+    url: /v3/api-docs.yaml
