@@ -6,15 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import person.attornatus.api.dto.request.PersonRequest;
 
-import person.attornatus.api.dto.request.AddressRequest;
 import person.attornatus.api.dto.response.AddressResponse;
 import person.attornatus.api.dto.response.PersonResponse;
+import person.attornatus.api.dto.response.PersonWithAddressResponse;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -54,26 +53,25 @@ public class PersonController {
        return mapper.map(personService.findByExternalUUID(uuid), PersonResponse.class);
     }
 
-    @PostMapping("/{uuid}/add-addres")
+    @PostMapping("/{uuid}/add-address")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponse setAddressInPerson(@PathVariable(value = "uuid")String uuid, @RequestBody Address address){
+        public PersonWithAddressResponse setAddressInPerson(@PathVariable(value = "uuid")String uuid, @RequestBody Address address){
         address.setExternalUUID(UUID.randomUUID().toString());
-        return mapper.map(personService.createAdrresForPerson(uuid, address), PersonResponse.class);
+        return mapper.map(personService.createAddressForPerson(uuid, address), PersonWithAddressResponse.class);
 
     }
 
     @GetMapping("/{uuid}/find-all-address")
     @ResponseStatus(HttpStatus.OK)
-    public AddressResponse findAllAddressPerson(@PathVariable(value = "uuid") String uuid){
-        return mapper.map(personService.listAllAddressForPerson(uuid), AddressResponse.class);
+    public PersonWithAddressResponse findAllAddressPerson(@PathVariable(value = "uuid") String uuid){
+        return mapper.map(personService.listAllAddressForPerson(uuid), PersonWithAddressResponse.class);
     }
 
-
-//    @GetMapping("/find-all")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public List<Person> findAll(){
-//        return personService.findAllPerson();
-//    }
+    @PutMapping("/{uuid-person}/{uuid-address}/main-address")
+    @ResponseStatus(HttpStatus.OK)
+    public  PersonWithAddressResponse setTheBestAddress(@PathVariable(value = "uuid-person")String uuidPerson, @PathVariable(value = "uuid-address")String uuidAddress){
+        return mapper.map(personService.setTheBestAddress(uuidPerson, uuidAddress), PersonWithAddressResponse.class);
+    }
 
 
 

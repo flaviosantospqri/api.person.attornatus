@@ -1,6 +1,6 @@
 package person.attornatus.api.model;
 import javax.persistence.*;
-
+import java.util.Objects;
 
 
 @Entity
@@ -83,5 +83,18 @@ public class Address {
 
     public void setMain(Boolean main) {
         isMain = main;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", externalUUID='" + externalUUID + '\'' +
+                ", publicPlace='" + publicPlace + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", number=" + number +
+                ", city='" + city + '\'' +
+                ", isMain=" + isMain +
+                '}';
     }
 }

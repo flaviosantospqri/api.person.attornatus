@@ -3,20 +3,17 @@ package person.attornatus.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
-import person.attornatus.api.dto.request.AddressRequest;
 import person.attornatus.api.dto.request.PersonRequest;
-import person.attornatus.api.dto.response.AddressResponse;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class PersonService {
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
     public PersonService(PersonRepository personRepository) {
@@ -40,37 +37,40 @@ public class PersonService {
 
     public Person updatePerson(PersonRequest personRequest, String uuid) {
         Person personFounded = personRepository.findPersonByExternalUUID(uuid).orElseThrow(() -> new NotFoundException("Person not founded"));
+               personFounded.setName(personRequest.getName());
+               personFounded.setBirthDate(personRequest.getBirthDate());
 
-            if(!personRequest.getName().isEmpty()) {
-                personFounded.setName(personRequest.getName());
-                personFounded.setName(personRequest.getName());
-            }
-
-            personRepository.saveAndFlush(personFounded);
-
-            return personFounded;
-
-
-
+               return  personFounded;
     }
 
-    public Person createAdrresForPerson(String personUUID, Address address) {
+    public Person createAddressForPerson(String personUUID, Address address) {
         Person personFounded = findByExternalUUID(personUUID);
         List<Address> addresses = personFounded.getAddresses();
         addresses.add(address);
-
+        personRepository.saveAndFlush(personFounded);
         return personFounded;
 
     }
 
     public List<Address> listAllAddressForPerson(String personUUID) {
         Person personFounded = findByExternalUUID(personUUID);
-        List<Address> addresses = personFounded.getAddresses();
-        return addresses;
+        return personFounded.getAddresses();
+
+
     }
 
 
-    public void setTheBestAddress(String personUUID, String addressUUID) {
+    public Person setTheBestAddress(String personUUID, String addressUUID) {
+        Person personFounded = findByExternalUUID(personUUID);
+        List<Address> addresses = personFounded.getAddresses();
+
+        for(Address a: addresses){
+            a.setMain(a.getExternalUUID().equals(addressUUID));
+        }
+        personRepository.saveAndFlush(personFounded);
+        return personFounded;
+
+
     }
 
 
