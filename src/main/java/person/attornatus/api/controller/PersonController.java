@@ -5,11 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import person.attornatus.api.dto.request.PersonRequest;
+
+import person.attornatus.api.dto.request.AddressRequest;
+import person.attornatus.api.dto.response.AddressResponse;
 import person.attornatus.api.dto.response.PersonResponse;
+import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 
 @RestController
@@ -46,6 +51,20 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public PersonResponse findPerson(@PathVariable(value = "uuid") String uuid){
        return mapper.map(personService.findByExternalUUID(uuid), PersonResponse.class);
+    }
+
+    @PostMapping("/{uuid}/add-addres")
+    @ResponseStatus(HttpStatus.OK)
+    public Person setAddressInPerson(@PathVariable(value = "uuid")String uuid, @RequestBody Address address){
+        address.setExternalUUID(UUID.randomUUID().toString());
+        return personService.createAdrresForPerson(uuid, address);
+
+    }
+
+    @GetMapping("/{uuid}/find-all-address")
+    @ResponseStatus(HttpStatus.OK)
+    public AddressResponse findAllAddressPerson(@PathVariable(value = "uuid") String uuid){
+        return mapper.map(personService.listAllAddressForPerson(uuid), AddressResponse.class);
     }
 
 

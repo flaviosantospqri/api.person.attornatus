@@ -2,18 +2,26 @@ package person.attornatus.api.model;
 import javax.persistence.*;
 
 
+
 @Entity
 @Table(name = "tb_address")
 public class Address {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @Column
+    private String externalUUID;
+
     @Column(nullable = false)
     private String publicPlace;
 
     @Column(nullable = false)
+
     private String zipCode;
 
     @Column(nullable = false)
@@ -28,13 +36,7 @@ public class Address {
     public Address() {
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getPublicPlace() {
         return publicPlace;
@@ -66,5 +68,20 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+    public String getExternalUUID() {
+        return externalUUID;
+    }
+
+    public void setExternalUUID(String externalUUID) {
+        this.externalUUID = externalUUID;
+    }
+
+    public Boolean getMain() {
+        return isMain;
+    }
+
+    public void setMain(Boolean main) {
+        isMain = main;
     }
 }
