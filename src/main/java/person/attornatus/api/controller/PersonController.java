@@ -14,6 +14,7 @@ import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -55,9 +56,9 @@ public class PersonController {
 
     @PostMapping("/{uuid}/add-addres")
     @ResponseStatus(HttpStatus.OK)
-    public Person setAddressInPerson(@PathVariable(value = "uuid")String uuid, @RequestBody Address address){
+    public PersonResponse setAddressInPerson(@PathVariable(value = "uuid")String uuid, @RequestBody Address address){
         address.setExternalUUID(UUID.randomUUID().toString());
-        return personService.createAdrresForPerson(uuid, address);
+        return mapper.map(personService.createAdrresForPerson(uuid, address), PersonResponse.class);
 
     }
 
