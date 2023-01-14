@@ -1,4 +1,4 @@
-package person.attornatus.api.DTO.response;
+package person.attornatus.api.dto.response;
 
 import java.time.LocalDate;
 

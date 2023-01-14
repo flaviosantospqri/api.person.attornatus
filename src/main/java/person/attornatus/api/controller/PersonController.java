@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import person.attornatus.api.DTO.request.PersonRequest;
-import person.attornatus.api.DTO.response.PersonResponse;
+import person.attornatus.api.dto.request.PersonRequest;
+import person.attornatus.api.dto.response.PersonResponse;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
 
@@ -16,9 +16,9 @@ import javax.validation.Valid;
 @RequestMapping("/person")
 public class PersonController {
 
-    private PersonService personService;
+    private final PersonService personService;
 
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
 
     @Autowired
@@ -34,11 +34,20 @@ public class PersonController {
         return mapper.map(createdPerson, PersonResponse.class);
     }
 
+    @PatchMapping("/{uuid}/update")
+    @ResponseStatus(HttpStatus.OK)
+    public PersonResponse updatePerson(@PathVariable(value = "uuid")String uuid, @RequestBody @Valid PersonRequest personRequest){
+        return mapper.map( personService.updatePerson(personRequest, uuid), PersonResponse.class);
+    }
+
+
+
     @GetMapping("/{uuid}/find-one")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponse findPerson(@PathVariable(value = "uuid") String uuid){
        return mapper.map(personService.findByExternalUUID(uuid), PersonResponse.class);
     }
+
 
 //    @GetMapping("/find-all")
 //    @ResponseStatus(HttpStatus.ACCEPTED)

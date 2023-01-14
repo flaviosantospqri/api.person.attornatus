@@ -3,6 +3,7 @@ package person.attornatus.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
+import person.attornatus.api.dto.request.PersonRequest;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
@@ -31,9 +32,22 @@ public class PersonService {
     public List<Person> findAllPerson() {
         return personRepository.findAll();
 
+
     }
 
-    public void EditPerson(Long id) {
+    public Person updatePerson(PersonRequest personRequest, String uuid) {
+        Person personFounded = personRepository.findPersonByExternalUUID(uuid).orElseThrow(() -> new NotFoundException("Person not founded"));
+
+            if(!personRequest.getName().isEmpty()) {
+                personFounded.setName(personRequest.getName());
+                personFounded.setName(personRequest.getName());
+            }
+
+            personRepository.saveAndFlush(personFounded);
+
+            return personFounded;
+
+
 
     }
 

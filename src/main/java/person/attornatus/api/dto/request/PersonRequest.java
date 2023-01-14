@@ -1,4 +1,4 @@
-package person.attornatus.api.DTO.request;
+package person.attornatus.api.dto.request;
 
 
 import javax.validation.constraints.NotBlank;
