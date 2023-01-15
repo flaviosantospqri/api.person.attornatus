@@ -1,12 +1,11 @@
 package person.attornatus.api.model;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 
 @Entity
 @Table(name = "tb_address")
 public class Address {
-
 
 
     @Id
@@ -35,7 +34,6 @@ public class Address {
 
     public Address() {
     }
-
 
 
     public String getPublicPlace() {
@@ -69,6 +67,7 @@ public class Address {
     public void setCity(String city) {
         this.city = city;
     }
+
     public String getExternalUUID() {
         return externalUUID;
     }

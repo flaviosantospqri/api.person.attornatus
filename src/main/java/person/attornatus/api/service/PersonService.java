@@ -37,10 +37,10 @@ public class PersonService {
 
     public Person updatePerson(PersonRequest personRequest, String uuid) {
         Person personFounded = personRepository.findPersonByExternalUUID(uuid).orElseThrow(() -> new NotFoundException("Person not founded"));
-               personFounded.setName(personRequest.getName());
-               personFounded.setBirthDate(personRequest.getBirthDate());
-
-               return  personFounded;
+        personFounded.setName(personRequest.getName());
+        personFounded.setBirthDate(personRequest.getBirthDate());
+        personRepository.saveAndFlush(personFounded);
+        return personFounded;
     }
 
     public Person createAddressForPerson(String personUUID, Address address) {
@@ -64,7 +64,7 @@ public class PersonService {
         Person personFounded = findByExternalUUID(personUUID);
         List<Address> addresses = personFounded.getAddresses();
 
-        for(Address a: addresses){
+        for (Address a : addresses) {
             a.setMain(a.getExternalUUID().equals(addressUUID));
         }
         personRepository.saveAndFlush(personFounded);
@@ -72,7 +72,4 @@ public class PersonService {
 
 
     }
-
-
-
 }
