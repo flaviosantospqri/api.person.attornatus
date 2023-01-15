@@ -37,6 +37,12 @@ public class PersonController {
         return mapper.map(createdPerson, PersonResponse.class);
     }
 
+    @GetMapping("/find-all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Person> findAll(){
+        return personService.findAllPerson();
+    }
+
     @PatchMapping("/{uuid}/update")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponse updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequest personRequest) {
