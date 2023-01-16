@@ -23,7 +23,6 @@ public class PersonController {
 
     private final ModelMapper mapper;
 
-
     @Autowired
     public PersonController(PersonService personService, ModelMapper mapper) {
         this.personService = personService;
