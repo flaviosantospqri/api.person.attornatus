@@ -3,7 +3,7 @@ package person.attornatus.api.dto.response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonWithAddressResponse extends PersonResponse {
+public class PersonWithAddressResponse extends PersonResponseDTO {
 
     private List<AddressResponse> addressess = new ArrayList<>();
 

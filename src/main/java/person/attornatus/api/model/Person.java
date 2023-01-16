@@ -15,7 +15,6 @@ public class Person {
     @Column
     private String externalUUID;
 
-
     @Column(nullable = false)
     private String name;
 

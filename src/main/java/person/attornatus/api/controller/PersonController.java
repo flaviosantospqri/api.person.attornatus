@@ -4,12 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import person.attornatus.api.dto.request.AddressRequestDTO;
 import person.attornatus.api.dto.request.PersonRequest;
-import person.attornatus.api.dto.response.PersonResponse;
+import person.attornatus.api.dto.response.PersonResponseDTO;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -31,9 +31,9 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PersonResponse createPerson(@RequestBody @Valid PersonRequest personRequest) {
+    public PersonResponseDTO createPerson(@RequestBody @Valid PersonRequest personRequest) {
         Person createdPerson = personService.createPerson(mapper.map(personRequest, Person.class));
-        return mapper.map(createdPerson, PersonResponse.class);
+        return mapper.map(createdPerson, PersonResponseDTO.class);
     }
 
     @GetMapping("/find-all")
@@ -44,22 +44,22 @@ public class PersonController {
 
     @PatchMapping("/{uuid}/update")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponse updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequest personRequest) {
-        return mapper.map(personService.updatePerson(personRequest, uuid), PersonResponse.class);
+    public PersonResponseDTO updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequest personRequest) {
+        return mapper.map(personService.updatePerson(personRequest, uuid), PersonResponseDTO.class);
     }
 
 
     @GetMapping("/{uuid}/find-one")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponse findPerson(@PathVariable(value = "uuid") String uuid) {
-        return mapper.map(personService.findByExternalUUID(uuid), PersonResponse.class);
+    public PersonResponseDTO findPerson(@PathVariable(value = "uuid") String uuid) {
+        return mapper.map(personService.findByExternalUUID(uuid), PersonResponseDTO.class);
     }
 
     @PostMapping("/{uuid}/add-address")
     @ResponseStatus(HttpStatus.OK)
-    public Person setAddressInPerson(@PathVariable(value = "uuid") String uuid, @RequestBody Address address) {
-        address.setExternalUUID(UUID.randomUUID().toString());
-        return personService.createAddressForPerson(uuid, address);
+    public PersonResponseDTO setAddressInPerson(@PathVariable(value = "uuid") String uuid, @RequestBody AddressRequestDTO addressRequestDTO) {
+        addressRequestDTO.setExtenalUUID(UUID.randomUUID().toString());
+        return mapper.map(personService.createAddressForPerson(uuid, addressRequestDTO), PersonResponseDTO.class);
 
     }
 
@@ -71,8 +71,8 @@ public class PersonController {
 
     @PutMapping("/{uuid-person}/{uuid-address}/main-address")
     @ResponseStatus(HttpStatus.OK)
-    public Person setTheBestAddress(@PathVariable(value = "uuid-person") String uuidPerson, @PathVariable(value = "uuid-address") String uuidAddress) {
-        return personService.setTheBestAddress(uuidPerson, uuidAddress);
+    public PersonResponseDTO setTheBestAddress(@PathVariable(value = "uuid-person") String uuidPerson, @PathVariable(value = "uuid-address") String uuidAddress) {
+        return mapper.map( personService.setTheBestAddress(uuidPerson, uuidAddress), PersonResponseDTO.class);
     }
 
 

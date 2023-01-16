@@ -3,11 +3,11 @@ package person.attornatus.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
+import person.attornatus.api.dto.request.AddressRequestDTO;
 import person.attornatus.api.dto.request.PersonRequest;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -43,10 +43,18 @@ public class PersonService {
         return personRepository.saveAndFlush(personFounded);
     }
 
-    public Person createAddressForPerson(String personUUID, Address address) {
+    public Person createAddressForPerson(String personUUID, AddressRequestDTO addressRequestDTO) {
         Person personFounded = getPerson(personUUID);
 
-        personFounded.getAddresses().add(address);
+        Address addressRequest = new Address();
+
+        addressRequest.setCity(addressRequestDTO.getCity());
+        addressRequest.setNumber(addressRequestDTO.getNumber());
+        addressRequest.setZipCode(addressRequestDTO.getZipCode());
+        addressRequest.setPublicPlace(addressRequestDTO.getPublicPlace());
+        addressRequest.setExternalUUID(addressRequestDTO.getExtenalUUID());
+
+        personFounded.getAddresses().add(addressRequest);
 
         return personRepository.saveAndFlush(personFounded);
     }

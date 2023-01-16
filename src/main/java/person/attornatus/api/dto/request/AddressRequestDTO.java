@@ -1,8 +1,7 @@
 package person.attornatus.api.dto.request;
-
 import javax.validation.constraints.Pattern;
 
-public class AddressRequest {
+public class AddressRequestDTO{
         private String extenalUUID;
 
         private Boolean isMain;

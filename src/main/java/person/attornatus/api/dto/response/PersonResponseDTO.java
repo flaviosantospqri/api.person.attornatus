@@ -2,7 +2,7 @@ package person.attornatus.api.dto.response;
 
 import java.time.LocalDate;
 
-public class PersonResponse {
+public class PersonResponseDTO {
     private String name;
     private String uuid;
     private LocalDate birthDate;

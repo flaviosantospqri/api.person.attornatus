@@ -7,11 +7,9 @@ import javax.persistence.*;
 @Table(name = "tb_address")
 public class Address {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column
     private String externalUUID;
@@ -34,7 +32,6 @@ public class Address {
 
     public Address() {
     }
-
 
     public String getPublicPlace() {
         return publicPlace;
