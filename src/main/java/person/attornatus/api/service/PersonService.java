@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import person.attornatus.api.dto.request.AddressRequestDTO;
-import person.attornatus.api.dto.request.PersonRequest;
+import person.attornatus.api.dto.request.PersonRequestDTO;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
@@ -34,7 +34,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person updatePerson(PersonRequest personRequest, String uuid) {
+    public Person updatePerson(PersonRequestDTO personRequest, String uuid) {
         Person personFounded = getPerson(uuid);
 
         personFounded.setName(Objects.requireNonNullElseGet(personRequest.getName(), personFounded::getName));
@@ -60,7 +60,7 @@ public class PersonService {
     }
 
     public List<Address> listAllAddressForPerson(String personUUID) {
-        return getPerson(personUUID).getAddresses();
+       return getPerson(personUUID).getAddresses();
     }
 
 

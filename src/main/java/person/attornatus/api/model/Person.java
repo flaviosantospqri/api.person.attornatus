@@ -65,13 +65,4 @@ public class Person {
     public void setExternalUUID(String externalUUID) {
         this.externalUUID = externalUUID;
     }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", addresses=" + addresses +
-                '}';
-    }
 }

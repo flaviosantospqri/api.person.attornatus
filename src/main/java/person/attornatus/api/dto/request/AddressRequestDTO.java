@@ -1,4 +1,5 @@
 package person.attornatus.api.dto.request;
+
 import javax.validation.constraints.Pattern;
 
 public class AddressRequestDTO{

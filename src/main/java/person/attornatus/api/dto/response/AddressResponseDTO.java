@@ -1,7 +1,7 @@
 package person.attornatus.api.dto.response;
 
-public class AddressResponse {
-    private String extenalUUID;
+public class AddressResponseDTO {
+    private String externalUUID;
 
     private int number;
 
@@ -9,12 +9,12 @@ public class AddressResponse {
 
     private String publicPlace;
 
-    public String getExtenalUUID() {
-        return extenalUUID;
+    public String getExternalUUID() {
+       return externalUUID;
     }
 
-    public void setExtenalUUID(String extenalUUID) {
-        this.extenalUUID = extenalUUID;
+    public void setExternalUUID(String externalUUID) {
+        this.externalUUID = externalUUID;
     }
 
     public int getNumber() {

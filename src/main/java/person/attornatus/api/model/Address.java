@@ -2,7 +2,6 @@ package person.attornatus.api.model;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "tb_address")
 public class Address {
@@ -29,9 +28,6 @@ public class Address {
 
     @Column(nullable = true)
     private Boolean isMain;
-
-    public Address() {
-    }
 
     public String getPublicPlace() {
         return publicPlace;
@@ -81,16 +77,4 @@ public class Address {
         isMain = main;
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", externalUUID='" + externalUUID + '\'' +
-                ", publicPlace='" + publicPlace + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", number=" + number +
-                ", city='" + city + '\'' +
-                ", isMain=" + isMain +
-                '}';
-    }
 }
