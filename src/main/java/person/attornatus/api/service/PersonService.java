@@ -86,6 +86,6 @@ public class PersonService {
     }
 
     private Person getPerson(String uuid) {
-        return personRepository.findPersonByExternalUUID(uuid).orElseThrow(() -> new NotFoundException("Person not founded"));
+        return personRepository.findPersonByExternalUUID(uuid).orElseThrow(() -> new NotFoundException("Person not found, review uuid."));
     }
 }
