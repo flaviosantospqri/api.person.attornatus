@@ -8,6 +8,7 @@ import person.attornatus.api.dto.request.PersonRequestDTO;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,15 +47,19 @@ public class PersonService {
     public Person createAddressForPerson(String personUUID, AddressRequestDTO addressRequestDTO) {
         Person personFounded = getPerson(personUUID);
 
-        Address addressRequest = new Address();
+        Address address = new Address();
 
-        addressRequest.setCity(addressRequestDTO.getCity());
-        addressRequest.setNumber(addressRequestDTO.getNumber());
-        addressRequest.setZipCode(addressRequestDTO.getZipCode());
-        addressRequest.setPublicPlace(addressRequestDTO.getPublicPlace());
-        addressRequest.setExternalUUID(addressRequestDTO.getExtenalUUID());
+        address.setCity(addressRequestDTO.getCity());
+        address.setNumber(addressRequestDTO.getNumber());
+        address.setZipCode(addressRequestDTO.getZipCode());
+        address.setPublicPlace(addressRequestDTO.getPublicPlace());
+        address.setExternalUUID(UUID.randomUUID().toString());
 
-        personFounded.getAddresses().add(addressRequest);
+        List<Address> list = new ArrayList<>();
+
+        list.add(address);
+
+        personFounded.setAddresses(list);
 
         return personRepository.saveAndFlush(personFounded);
     }

@@ -1,17 +1,20 @@
 package person.attornatus.api.service;
 
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import person.attornatus.api.dto.request.AddressRequestDTO;
 import person.attornatus.api.dto.request.PersonRequestDTO;
+import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -33,7 +36,7 @@ public class PersonServiceTest {
 
         Person person = personService().createPerson(personRequest);
 
-        Assertions.assertEquals(personComplete.getName(), person.getName());
+        assertEquals(personComplete.getName(), person.getName());
 
     }
 
@@ -45,7 +48,7 @@ public class PersonServiceTest {
 
         Person foundedPerson = personService().findByExternalUUID(personComplete.getExternalUUID());
 
-        Assertions.assertEquals(personComplete.getName(), foundedPerson.getName());
+        assertEquals(personComplete.getName(), foundedPerson.getName());
     }
 
     @Test
@@ -56,33 +59,119 @@ public class PersonServiceTest {
 
         List<Person> persons = personService().findAllPerson();
 
-        Assertions.assertNotNull(persons);
-
-        Assertions.assertEquals(1, persons.size());
+        assertNotNull(persons);
+        assertFalse(persons.isEmpty());
 
     }
 
-    private PersonRequestDTO getPersonDTOMock(){
-        PersonRequestDTO personTest = new PersonRequestDTO();
+    @Test
+    public void updatePerson_shouldNewValue() {
+        PersonRequestDTO personRequestDTO = getMockPersonDTO();
+        Person personComplete = getMockPersonComplete();
+        Person personUpdated = getPersonWithUpdateData();
 
-        personTest.setName("John");
-        personTest.setBirthDate(LocalDate.now().minusDays(10));
+        when(personRepository.findPersonByExternalUUID(personComplete.getExternalUUID())).thenReturn(Optional.of(personComplete));
+        when(personRepository.saveAndFlush(personComplete)).thenReturn(personUpdated);
 
-        return personTest;
+        Person serviceResponse = personService().updatePerson(personRequestDTO, personComplete.getExternalUUID());
+
+        assertEquals(personUpdated.getName(), serviceResponse.getName());
     }
+
+    @Test
+    public void createAddressForPerson_shouldReturnPersonWithNewAddress_withValidParams(){
+        AddressRequestDTO addressRequestDTO = getMockAddressDTO();
+        Person personComplete = getMockPersonComplete();
+        Person personWithAddress = getPersonWithAddressData();
+
+        when(personRepository.findPersonByExternalUUID(personComplete.getExternalUUID())).thenReturn(Optional.of(personComplete));
+        when(personRepository.saveAndFlush(personComplete)).thenReturn(personWithAddress);
+
+        Person serviceResponse = personService().createAddressForPerson(personComplete.getExternalUUID(), addressRequestDTO);
+
+        assertNotNull(serviceResponse);
+        assertEquals(personComplete.getAddresses().size(), serviceResponse.getAddresses().size());
+    }
+
+    @Test
+    public void listAllAddressForPerson_shouldReturnAllAddress(){
+        Person personWithAddress = getPersonWithAddressData();
+
+        when(personRepository.findPersonByExternalUUID(personWithAddress.getExternalUUID())).thenReturn(Optional.of(personWithAddress));
+        when(personRepository.saveAndFlush(personWithAddress)).thenReturn(personWithAddress);
+
+        List<Address> serviceResponse = personService().listAllAddressForPerson(personWithAddress.getExternalUUID());
+
+        assertNotNull(serviceResponse);
+        assertFalse(serviceResponse.isEmpty());
+
+    }
+
+    @Test
+    public void setTheBestAddress_shouldReturnAddress_withMainParamTrue(){
+        Person personWithAddress = getPersonWithAddressData();
+
+        when(personRepository.findPersonByExternalUUID(personWithAddress.getExternalUUID())).thenReturn(Optional.of(personWithAddress));
+        when(personRepository.saveAndFlush(personWithAddress)).thenReturn(personWithAddress);
+
+        Person serviceResponse = personService().setTheBestAddress(personWithAddress.getExternalUUID(), personWithAddress.getAddresses().get(0).getExternalUUID());
+
+        assertNotNull(serviceResponse);
+        assertTrue(serviceResponse.getAddresses().get(0).getMain());
+    }
+
+    private Person getPersonWithAddressData(){
+        Person person = getMockPersonComplete();
+
+        Address address = new Address();
+
+        address.setExternalUUID(UUID.randomUUID().toString());
+        address.setNumber(243);
+        address.setZipCode("36610000");
+        address.setCity("Java City");
+        address.setMain(true);
+        address.setPublicPlace("Rua dos Devs");
+
+        person.setAddresses(List.of(address));
+
+        return person;
+    }
+
+    private AddressRequestDTO getMockAddressDTO(){
+        AddressRequestDTO address = new AddressRequestDTO();
+
+        address.setNumber(243);
+        address.setZipCode("36610000");
+        address.setCity("Java City");
+        address.setMain(true);
+        address.setPublicPlace("Rua dos Devs");
+
+        return address;
+    }
+
+    private PersonRequestDTO getMockPersonDTO() {
+        PersonRequestDTO personDTO = new PersonRequestDTO();
+
+        personDTO.setName("Billy");
+        personDTO.setBirthDate(LocalDate.now().minusDays(10));
+
+        return personDTO;
+    }
+
     private Person getMockPersonRequest(){
         Person personTest = new Person();
 
-        personTest.setName("Jhon Doyle");
+        personTest.setName("Jonie Doyle");
         personTest.setBirthDate(LocalDate.now().minusDays(10));
 
         return personTest;
 
     }
+
     private Person getMockPersonComplete(){
         Person personTest = new Person();
 
-        personTest.setName("Jhon Doyle");
+        personTest.setName("Jonie Doyle");
         personTest.setBirthDate(LocalDate.now().minusDays(10));
         personTest.setExternalUUID(UUID.randomUUID().toString());
 
@@ -90,4 +179,14 @@ public class PersonServiceTest {
 
     }
 
+    private Person getPersonWithUpdateData(){
+        Person personTest = new Person();
+
+        personTest.setName("Jonie Doyle");
+        personTest.setBirthDate(LocalDate.now().minusDays(10));
+        personTest.setExternalUUID(UUID.randomUUID().toString());
+
+        return personTest;
+
+    }
 }

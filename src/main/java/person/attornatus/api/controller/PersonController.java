@@ -41,15 +41,8 @@ public class PersonController {
 
     @GetMapping("/find-all")
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponseDTO> findAll(){
-
-        List<PersonResponseDTO> personsDTO = new ArrayList<>();
-
-        List<Person> persons = personService.findAllPerson();
-
-        persons.forEach(a -> personsDTO.add(mapper.map(a, PersonResponseDTO.class)));
-
-        return personsDTO;
+    public PersonResponseDTO[] findAll(){
+        return mapper.map(personService.findAllPerson(), PersonResponseDTO[].class);
     }
 
     @PatchMapping("/{uuid}/update")
@@ -57,7 +50,6 @@ public class PersonController {
     public PersonResponseDTO updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequestDTO personRequest) {
         return mapper.map(personService.updatePerson(personRequest, uuid), PersonResponseDTO.class);
     }
-
 
     @GetMapping("/{uuid}/find-one")
     @ResponseStatus(HttpStatus.OK)
@@ -68,24 +60,16 @@ public class PersonController {
     @PostMapping("/{uuid}/add-address")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponseDTO setAddressInPerson(@PathVariable(value = "uuid") String uuid, @RequestBody AddressRequestDTO addressRequestDTO) {
-        addressRequestDTO.setExtenalUUID(UUID.randomUUID().toString());
-
         return mapper.map(personService.createAddressForPerson(uuid, addressRequestDTO), PersonResponseDTO.class);
     }
 
     @GetMapping("/{uuid}/find-all-address")
     @ResponseStatus(HttpStatus.OK)
-    public List<AddressResponseDTO> findAllAddressPerson(@PathVariable(value = "uuid") String uuid) {
-
-        List<AddressResponseDTO> addressResponseDTOS = new ArrayList<>();
-
-        List<Address> addresses = personService.listAllAddressForPerson(uuid);
-
-        addresses.forEach(a -> addressResponseDTOS.add(mapper.map(a, AddressResponseDTO.class)));
-        return addressResponseDTOS;
+    public AddressResponseDTO[] findAllAddressPerson(@PathVariable(value = "uuid") String uuid) {
+        return mapper.map(personService.listAllAddressForPerson(uuid), AddressResponseDTO[].class);
     }
 
-    @PutMapping("/{uuid-person}/{uuid-address}/main-address")
+    @PutMapping("/{uuid-person}/main-address/{uuid-address}")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponseDTO setTheBestAddress(@PathVariable(value = "uuid-person") String uuidPerson, @PathVariable(value = "uuid-address") String uuidAddress) {
         return mapper.map( personService.setTheBestAddress(uuidPerson, uuidAddress), PersonResponseDTO.class);

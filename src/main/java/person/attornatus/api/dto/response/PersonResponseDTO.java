@@ -1,7 +1,6 @@
 package person.attornatus.api.dto.response;
 
 import person.attornatus.api.model.Address;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
