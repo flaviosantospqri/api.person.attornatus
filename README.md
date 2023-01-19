@@ -303,7 +303,7 @@ Person not found, review uiid-person.
 ```
 ou 
 ```Json
-Address not found, review uiid-person.
+Address not found, review uiid-adress.
 ```
 
 📄 Documentação Swagger
