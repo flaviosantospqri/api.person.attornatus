@@ -1,7 +1,5 @@
 package person.attornatus.api.dto.request;
 
-import org.springframework.lang.Nullable;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,7 +9,7 @@ public class AddressRequestDTO{
         private String extenalUUID;
 
 
-        @Nullable
+        @NotNull
         private Boolean isMain;
 
         @NotNull
@@ -76,5 +74,5 @@ public class AddressRequestDTO{
         public void setCity(String city) {
             this.city = city;
         }
-    }
+}
 

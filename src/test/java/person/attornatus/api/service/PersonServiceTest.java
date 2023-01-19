@@ -6,6 +6,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import person.attornatus.api.dto.request.AddressRequestDTO;
 import person.attornatus.api.dto.request.PersonRequestDTO;
+import person.attornatus.api.exceptions.PersonNotFoundException;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.repository.PersonRepository;
@@ -41,7 +42,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void findByExternalUUID_shouldReturnPerson_withValidUUID(){
+    public void findByExternalUUID_shouldReturnPerson_withValidUUID() throws PersonNotFoundException {
         Person personComplete = getMockPersonComplete();
 
         when(personRepository.findPersonByExternalUUID(personComplete.getExternalUUID())).thenReturn(Optional.of(personComplete));
@@ -65,7 +66,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void updatePerson_shouldNewValue() {
+    public void updatePerson_shouldNewValue() throws PersonNotFoundException {
         PersonRequestDTO personRequestDTO = getMockPersonDTO();
         Person personComplete = getMockPersonComplete();
         Person personUpdated = getPersonWithUpdateData();
@@ -79,7 +80,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void createAddressForPerson_shouldReturnPersonWithNewAddress_withValidParams(){
+    public void createAddressForPerson_shouldReturnPersonWithNewAddress_withValidParams() throws PersonNotFoundException {
         AddressRequestDTO addressRequestDTO = getMockAddressDTO();
         Person personComplete = getMockPersonComplete();
         Person personWithAddress = getPersonWithAddressData();
@@ -94,7 +95,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void listAllAddressForPerson_shouldReturnAllAddress(){
+    public void listAllAddressForPerson_shouldReturnAllAddress() throws PersonNotFoundException {
         Person personWithAddress = getPersonWithAddressData();
 
         when(personRepository.findPersonByExternalUUID(personWithAddress.getExternalUUID())).thenReturn(Optional.of(personWithAddress));
@@ -108,7 +109,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void setTheBestAddress_shouldReturnAddress_withMainParamTrue(){
+    public void setTheBestAddress_shouldReturnAddress_withMainParamTrue() throws PersonNotFoundException {
         Person personWithAddress = getPersonWithAddressData();
 
         when(personRepository.findPersonByExternalUUID(personWithAddress.getExternalUUID())).thenReturn(Optional.of(personWithAddress));
