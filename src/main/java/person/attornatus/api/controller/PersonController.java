@@ -8,6 +8,7 @@ import person.attornatus.api.dto.request.AddressRequestDTO;
 import person.attornatus.api.dto.request.PersonRequestDTO;
 import person.attornatus.api.dto.response.AddressResponseDTO;
 import person.attornatus.api.dto.response.PersonResponseDTO;
+import person.attornatus.api.exceptions.PersonNotFoundException;
 import person.attornatus.api.model.Address;
 import person.attornatus.api.model.Person;
 import person.attornatus.api.service.PersonService;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/person")
-public class PersonController {
+public class PersonController  {
 
     private final PersonService personService;
 
@@ -47,31 +48,31 @@ public class PersonController {
 
     @PatchMapping("/{uuid}/update")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponseDTO updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequestDTO personRequest) {
+    public PersonResponseDTO updatePerson(@PathVariable(value = "uuid") String uuid, @RequestBody @Valid PersonRequestDTO personRequest) throws PersonNotFoundException {
         return mapper.map(personService.updatePerson(personRequest, uuid), PersonResponseDTO.class);
     }
 
     @GetMapping("/{uuid}/find-one")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponseDTO findPerson(@PathVariable(value = "uuid") String uuid) {
+    public PersonResponseDTO findPerson(@PathVariable(value = "uuid") String uuid) throws PersonNotFoundException {
         return mapper.map(personService.findByExternalUUID(uuid), PersonResponseDTO.class);
     }
 
     @PostMapping("/{uuid}/add-address")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponseDTO setAddressInPerson(@PathVariable(value = "uuid") String uuid, @RequestBody AddressRequestDTO addressRequestDTO) {
+    public PersonResponseDTO setAddressInPerson(@PathVariable(value = "uuid") String uuid, @RequestBody AddressRequestDTO addressRequestDTO) throws PersonNotFoundException {
         return mapper.map(personService.createAddressForPerson(uuid, addressRequestDTO), PersonResponseDTO.class);
     }
 
     @GetMapping("/{uuid}/find-all-address")
     @ResponseStatus(HttpStatus.OK)
-    public AddressResponseDTO[] findAllAddressPerson(@PathVariable(value = "uuid") String uuid) {
+    public AddressResponseDTO[] findAllAddressPerson(@PathVariable(value = "uuid") String uuid) throws PersonNotFoundException {
         return mapper.map(personService.listAllAddressForPerson(uuid), AddressResponseDTO[].class);
     }
 
     @PutMapping("/{uuid-person}/main-address/{uuid-address}")
     @ResponseStatus(HttpStatus.OK)
-    public PersonResponseDTO setTheBestAddress(@PathVariable(value = "uuid-person") String uuidPerson, @PathVariable(value = "uuid-address") String uuidAddress) {
-        return mapper.map( personService.setTheBestAddress(uuidPerson, uuidAddress), PersonResponseDTO.class);
+    public PersonResponseDTO setTheBestAddress(@PathVariable(value = "uuid-person") String uuidPerson, @PathVariable(value = "uuid-address") String uuidAddress) throws PersonNotFoundException {
+        return mapper.map(personService.setTheBestAddress(uuidPerson, uuidAddress), PersonResponseDTO.class);
     }
 }

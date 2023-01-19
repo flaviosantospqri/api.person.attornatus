@@ -1,6 +1,7 @@
 package person.attornatus.api.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_address")
@@ -17,7 +18,6 @@ public class Address {
     private String publicPlace;
 
     @Column(nullable = false)
-
     private String zipCode;
 
     @Column(nullable = false)
@@ -26,6 +26,7 @@ public class Address {
     @Column(nullable = false)
     private String city;
 
+    @NotNull
     @Column(nullable = true)
     private Boolean isMain;
 
