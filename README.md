@@ -1,6 +1,6 @@
 # Challenge - Attornatus API de Pessoas.
 
-O projeto consiste em um API de gerênciamento de pessoas e seus respectivos endereço. Não existe um contexto específico para uso, mas é possível utilizar para base de dados com foco em gerenciamento clientes e endereços para entrega.
+O projeto consiste em um API de gerenciamento de pessoas e seus respectivos endereços. Não existe um contexto específico para uso, mas é possível utilizar para base de dados com foco em gerenciamento clientes e endereços para entrega.
 
 # :rocket: Primeiras instruções.
 
@@ -18,7 +18,7 @@ Estas instruções, vão te guiar para obter a melhor experiência com a API.
 
 # :heavy_check_mark: Consumindo o Serviço
 
-### Para consumir localmente utilize alguma ferramente client e com a aplicação rodando, acesse:
+### Para consumir localmente utilize alguma ferramenta client e com a aplicação rodando, acesse:
 ```url
 localhost:8080/person
 ```
@@ -43,7 +43,7 @@ POST /person
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| Body Request | Objeto JSON | Obrigatorio um objeto Json como parâmetro da requisição |
+| Body Request | Objeto JSON | Obrigatório um objeto Json como parâmetro da requisição |
 
 ### Exemplo
 
@@ -59,7 +59,7 @@ GET /person/find-all
 ```
 
 ### Exemplo
-Retorno experado:
+Retorno esperado:
 
 #### Lista populada
 ```Json
@@ -124,7 +124,7 @@ person/5e98cd7b-1adc-4a40-a338-7dd3ba66efe3/find-one
 #### Caso de Falha
 
 ```Json
-Person not found, review uiid.
+Person not found, review uuid.
 ```
 
 
@@ -138,7 +138,7 @@ PATCH /person/{uuid}/update
 | :---------- | :--------- | :------------------------------------------ |
 | `uuid`      | `string` | **Obrigatório**. O uuid da Pessoa que está buscando |
 
-No corpo da requisição informar o valor que irá sofrear a modficação.
+No corpo da requisição informar o valor que irá sofrer a modificação.
 
 #### Exemplo
 
@@ -153,7 +153,7 @@ No corpo da requisição informar o valor que irá sofrear a modficação.
 
 ```json
 {
-"name": "Junario",
+"name": "Januario",
 "uuid": "5e98cd7b-1adc-4a40-a338-7dd3ba66efe3",
 "birthDate": "2022-04-05",
 "addresses": [
@@ -172,7 +172,7 @@ No corpo da requisição informar o valor que irá sofrear a modficação.
 #### Caso de Falha
 
 ```Json
-Person not found, review uiid.
+Person not found, review uuid.
 ```
 
 
@@ -189,7 +189,7 @@ POST /person/{uuid}/add-address
 
 ```Json
 {
-"publicPlace":"Rua dos Deves",
+"publicPlace":"Rua dos Dev's",
 "zipCode":"36610-000",
 "number":242,
 "city":"Java City"
@@ -200,13 +200,13 @@ POST /person/{uuid}/add-address
 
 ```json
 {
-"name": "Junario",
+"name": "Januario",
 "uuid": "5e98cd7b-1adc-4a40-a338-7dd3ba66efe3",
 "birthDate": "2022-04-05",
 "addresses": [
   {
     "externalUUID": "8cf4ff8f-7c74-4acd-a7ea-302c69f39300",
-    "publicPlace": "Rua dos Deves",
+    "publicPlace": "Rua dos Dev's",
     "zipCode": "36610-000",
     "number": 242,
     "city": "Java City",
@@ -219,7 +219,7 @@ POST /person/{uuid}/add-address
 #### Caso de Falha
 
 ```Json
-Person not found, review uiid.
+Person not found, review uuid.
 ```
 
 ```http
@@ -251,7 +251,7 @@ person/5e98cd7b-1adc-4a40-a338-7dd3ba66efe3/find-all-address
 #### Caso de Falha
 
 ```Json
-Person not found, review uiid.
+Person not found, review uuid.
 ```
 
 ```http
@@ -272,7 +272,7 @@ localhost:8080/person/5e98cd7b-1adc-4a40-a338-7dd3ba66efe3/main-address/8cf4ff8f
 
 ```json
   {
-    "name": "Junario",
+    "name": "Januario",
     "uuid": "5e98cd7b-1adc-4a40-a338-7dd3ba66efe3",
     "birthDate": "2022-04-05",
     "addresses":
