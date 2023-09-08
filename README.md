@@ -29,7 +29,7 @@ Pode ser que sua aplicação não esteja rodando na porta 8080, neste caso subst
 ## Você pode consumir remotamente:
 
 ```url
-[api-person-attornatus.up.railway.app/person](https://api-address-person.up.railway.app/person/find-all)
+https://api-address-person.up.railway.app/person/find-all
 ```
 
 
