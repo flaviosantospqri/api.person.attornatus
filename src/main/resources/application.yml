@@ -6,3 +6,5 @@ springdoc:
   swagger-ui:
     path: /doc
     url: /v3/api-docs.yaml
+server:
+  port: 8081
