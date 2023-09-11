@@ -15,7 +15,7 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("http://localhost:5173")); // Specify allowed origins
+        corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "https://stemis-project-two.vercel.app")); // Specify allowed origins
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("*");
         corsConfig.setMaxAge(3600L); // 1 hour
